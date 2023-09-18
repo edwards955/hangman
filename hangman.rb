@@ -26,6 +26,10 @@ class Hangman
     gets.chomp.downcase
   end
 
+  def check_for_letters(guess)
+    (0...secret_word.length).find_all { |i| secret_word[i, 1] == guess }
+  end
+
   def check_guess(letters_found, guess)
     if letters_found.empty?
       self.guesses_left -= 1
@@ -46,7 +50,7 @@ class Hangman
       display(correct)
       incorrect_display(incorrect)
       guess = get_guess
-      letters_found = (0...secret_word.length).find_all { |i| secret_word[i, 1] == guess }
+      letters_found = check_for_letters(guess)
       check_guess(letters_found, guess)
       break if correct.none?('_')
     end

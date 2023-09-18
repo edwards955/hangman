@@ -37,9 +37,7 @@ class Hangman
       puts
       puts "Incorrect. You have #{guesses_left} guesses left."
     else
-      letters_found.each do |i|
-        correct[i] = guess
-      end
+      letters_found.each { |i| correct[i] = guess }
       puts
       puts 'Correct!'
     end
@@ -55,11 +53,7 @@ class Hangman
       break if correct.none?('_')
     end
 
-    if guesses_left.zero?
-      puts 'You lose!'
-    else
-      puts 'You win!'
-    end
+    guesses_left.zero? ? (puts 'You lose!') : (puts 'You win!')
   end
 end
 

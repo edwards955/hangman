@@ -3,7 +3,7 @@ class Hangman
 
   def initialize
     dictionary = File.readlines('dictionary.txt', chomp: true) if File.exist?('dictionary.txt')
-    words = dictionary.select {|word| word.length.between?(5, 12)}
+    words = dictionary.select { |word| word.length.between?(5, 12) }
     @secret_word = words.sample
     @correct = Array.new(secret_word.length) { '_' }
     @incorrect = []
@@ -21,12 +21,16 @@ class Hangman
     puts
   end
 
+  def get_guess
+    puts 'Guess a letter:'
+    gets.chomp.downcase
+  end
+
   def play
     until guesses_left.zero?
       display(correct)
       incorrect_display(incorrect)
-      puts 'Guess a letter:'
-      guess = gets.chomp.downcase
+      guess = get_guess
       letters_found = (0...secret_word.length).find_all { |i| secret_word[i, 1] == guess }
       if letters_found.empty?
         self.guesses_left -= 1
@@ -42,9 +46,9 @@ class Hangman
       end
     end
 
-    if guesses_left == 0
+    if guesses_left.zero?
       puts 'You lose!'
-    else 
+    else
       puts 'You win!'
     end
   end

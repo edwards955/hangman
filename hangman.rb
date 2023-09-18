@@ -26,24 +26,29 @@ class Hangman
     gets.chomp.downcase
   end
 
+  def check_guess(letters_found, guess)
+    if letters_found.empty?
+      self.guesses_left -= 1
+      incorrect.push(guess)
+      puts
+      puts "Incorrect. You have #{guesses_left} guesses left."
+    else
+      letters_found.each do |i|
+        correct[i] = guess
+      end
+      puts
+      puts 'Correct!'
+    end
+  end
+
   def play
     until guesses_left.zero?
       display(correct)
       incorrect_display(incorrect)
       guess = get_guess
       letters_found = (0...secret_word.length).find_all { |i| secret_word[i, 1] == guess }
-      if letters_found.empty?
-        self.guesses_left -= 1
-        incorrect.push(guess)
-        puts
-        puts "Incorrect. You have #{guesses_left} guesses left."
-      else
-        letters_found.each do |i|
-          correct[i] = guess
-        end
-        puts
-        break if correct.none?('_')
-      end
+      check_guess(letters_found, guess)
+      break if correct.none?('_')
     end
 
     if guesses_left.zero?

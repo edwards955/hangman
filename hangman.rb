@@ -38,8 +38,14 @@ class Hangman
           correct[i] = guess
         end
         puts
-        puts 'Correct!'
+        break if correct.none?('_')
       end
+    end
+
+    if guesses_left == 0
+      puts 'You lose!'
+    else 
+      puts 'You win!'
     end
   end
 end

@@ -1,3 +1,5 @@
+require 'json'
+
 class Hangman
   attr_accessor :secret_word, :correct, :incorrect, :guesses_left
 
@@ -22,8 +24,25 @@ class Hangman
   end
 
   def get_guess
-    puts 'Guess a letter:'
-    gets.chomp.downcase
+    completed = false
+    until completed
+      puts "Guess a letter (or type 'save' to save game):"
+      input = gets.chomp.downcase
+      if input == 'save'
+        save_game(self)
+        puts 'Game saved!'
+        next
+      end
+      completed = true
+    end
+    input
+  end
+
+  def save_game(game)
+    saved_game = JSON::dump(game)
+    puts saved_game
+    p saved_game
+    File.open('game_file.txt', 'w') { |file| file.puts saved_game }
   end
 
   def check_for_letters(guess)
@@ -54,6 +73,10 @@ class Hangman
     end
 
     guesses_left.zero? ? (puts 'You lose!') : (puts 'You win!')
+  end
+
+  def to_s
+    "Secret Word: #{secret_word}"
   end
 end
 

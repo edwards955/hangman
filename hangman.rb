@@ -1,4 +1,4 @@
-require 'json'
+require 'yaml'
 
 class Hangman
   attr_accessor :secret_word, :correct, :incorrect, :guesses_left
@@ -39,9 +39,7 @@ class Hangman
   end
 
   def save_game(game)
-    saved_game = JSON::dump(game)
-    puts saved_game
-    p saved_game
+    saved_game = YAML.dump(game)
     File.open('game_file.txt', 'w') { |file| file.puts saved_game }
   end
 
@@ -80,5 +78,20 @@ class Hangman
   end
 end
 
-game = Hangman.new
-game.play
+puts 'Welcome to Hangman! Would you like to load a previous game? (y/n)'
+load_game = gets.chomp
+if load_game == 'y'
+  puts 'Enter the file name of your saved game'
+  file_name = gets.chomp
+  save_data = File.open(file_name, 'r') { |file| file.read }
+  game = YAML.load(save_data, permitted_classes: [Hangman])
+  game.play
+else
+  puts 'No save data loaded. Starting new game.'
+  game = Hangman.new
+  game.play
+end
+
+
+
+

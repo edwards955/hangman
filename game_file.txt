@@ -1,1 +1,14 @@
-"Secret Word: azerbaijan"
+--- !ruby/object:Hangman
+secret_word: achieving
+correct:
+- a
+- _
+- h
+- i
+- _
+- _
+- i
+- _
+- _
+incorrect: []
+guesses_left: 5
